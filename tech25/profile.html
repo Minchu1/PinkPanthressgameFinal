@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Profile-specific tweaks */
+    .profile-card {
+      text-align: center;
+      padding: 20px;
+    }
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #e60073;
+      margin: 15px 0;
+    }
+    .input-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .input-group input {
+      flex: 1;
+      max-width: 250px;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Profile</h1>
+  <div class="section profile-card">
+    <img id="profilePic" class="profile-pic" src="https://images.seeklogo.com/logo-png/10/1/pink-panther-logo-png_seeklogo-109024.png" alt="Profile Picture">
+    
+    <p id="timeDisplay">Loading your completion time...</p>
+
+    <div class="input-group">
+      <input type="text" id="picUrlInput" placeholder="Paste image URL (e.g. from Imgur)">
+      <button id="savePicBtn" class="game-btn">Save</button>
+    </div>
+
+    <button id="deleteBtn" class="game-btn">Delete My Completion Time</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getDatabase, ref, get, set, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjJH-gJjPcZeS1Ph-JL15_aN3cq5Ecr5Q",
+      authDomain: "pinkpanther-27795.firebaseapp.com",
+      databaseURL: "https://pinkpanther-27795-default-rtdb.firebaseio.com",
+      projectId: "pinkpanther-27795",
+      storageBucket: "pinkpanther-27795.appspot.com",
+      messagingSenderId: "950188314786",
+      appId: "1:950188314786:web:1be4f4c1e9ed874567c7fb"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    const timeDisplay = document.getElementById("timeDisplay");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const profilePic = document.getElementById("profilePic");
+    const picUrlInput = document.getElementById("picUrlInput");
+    const savePicBtn = document.getElementById("savePicBtn");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+
+        // Load completion time
+        const userTimeRef = ref(db, `completionTimes/${uid}`);
+        const snap = await get(userTimeRef);
+        if (snap.exists()) {
+          const val = snap.val();
+          let bestTime;
+          if (val.time !== undefined) {
+            bestTime = val.time;
+          } else {
+            const runs = Object.values(val);
+            bestTime = Math.min(...runs.map(r => r.time));
+          }
+          timeDisplay.textContent = `Your best time: ${bestTime.toFixed(2)} seconds`;
+        } else {
+          timeDisplay.textContent = "No completion time saved.";
+          deleteBtn.style.display = "none";
+        }
+
+        // Delete button
+        deleteBtn.onclick = async () => {
+          if (confirm("Are you sure you want to delete your completion time?")) {
+            await remove(userTimeRef);
+            timeDisplay.textContent = "Your completion time has been deleted.";
+            deleteBtn.style.display = "none";
+          }
+        };
+
+        // Load profile picture
+        const picRef = ref(db, `publicProfiles/${uid}/profilePic`);
+        const picSnap = await get(picRef);
+        if (picSnap.exists()) {
+          profilePic.src = picSnap.val();
+        }
+
+        // Save profile picture
+// Helper: check if string looks like a URL with an image extension
+function isLikelyImageUrl(url) {
+  try {
+    const parsed = new URL(url); // throws if not valid
+    return /\.(jpg|jpeg|png|gif|webp)$/i.test(parsed.pathname);
+  } catch {
+    return false;
+  }
+}
+
+// Helper: check if the image actually loads
+function checkImageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+}
+
+// Save profile picture
+savePicBtn.onclick = async () => {
+  const url = picUrlInput.value.trim();
+
+  if (!isLikelyImageUrl(url)) {
+    alert("❌ Please enter a valid image URL ending in .jpg, .png, .gif, or .webp");
+    return;
+  }
+
+  const valid = await checkImageExists(url);
+  if (!valid) {
+    alert("⚠️ That link doesn’t seem to load an image. Try another one.");
+    return;
+  }
+
+  // Save to database if all checks pass
+  await set(picRef, url);
+  profilePic.src = url;
+  alert("✅ Profile picture updated!");
+  picUrlInput.value = "";
+};
+
+
+      } else {
+        timeDisplay.textContent = "Please sign in to see your data.";
+        deleteBtn.style.display = "none";
+        savePicBtn.style.display = "none";
+        picUrlInput.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>

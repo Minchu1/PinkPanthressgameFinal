@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pink Panthress — Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="game-body">
+
+  <h2 id="question">Ready to plan the heist?</h2>
+  <div id="choices" class="choice-wrapper">
+    <button class="game-btn" onclick="answerYes()">Let’s do it</button>
+    <button class="game-btn" onclick="answerNo()">Not right now</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjJH-gJjPcZeS1Ph-JL15_aN3cq5Ecr5Q",
+      authDomain: "pinkpanther-27795.firebaseapp.com",
+      databaseURL: "https://pinkpanther-27795-default-rtdb.firebaseio.com",
+      projectId: "pinkpanther-27795",
+      storageBucket: "pinkpanther-27795.appspot.com",
+      messagingSenderId: "950188314786",
+      appId: "1:950188314786:web:1be4f4c1e9ed874567c7fb"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.db = getDatabase(app);
+    window.auth = getAuth(app);
+
+    window.setToDb = (path, value) => {
+      return set(push(ref(window.db, path)), value);
+    };
+  </script>
+
+  <script src="game.js"></script>
+</body>
+</html>

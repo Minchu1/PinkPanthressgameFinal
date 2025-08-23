@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In - Pink Panthress Adventures</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Nerko One', cursive;
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 12px;
+      margin: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      width: 80%;
+      max-width: 300px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #e60073;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #ff3399;
+    }
+    #message {
+      margin-top: 15px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Welcome Back, Agent</h2>
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <br>
+  <button id="signin-btn">Sign In</button>
+
+  <div id="message"></div>
+
+  <!-- Firebase Sign-In Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjJH-gJjPcZeS1Ph-JL15_aN3cq5Ecr5Q",
+      authDomain: "pinkpanther-27795.firebaseapp.com",
+      projectId: "pinkpanther-27795",
+      storageBucket: "pinkpanther-27795.appspot.com",
+      messagingSenderId: "950188314786",
+      appId: "1:950188314786:web:1be4f4c1e9ed874567c7fb"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const signinBtn = document.getElementById('signin-btn');
+    const msg = document.getElementById('message');
+
+    signinBtn.addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        msg.textContent = "Both fields are required.";
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        msg.style.color = 'lightgreen';
+        msg.textContent = "Login successful! Redirecting...";
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 2000);
+      } catch (error) {
+        msg.style.color = 'salmon';
+        msg.textContent = "Incorrect email or password.";
+      }
+    });
+  </script>
+</body>
+</html>

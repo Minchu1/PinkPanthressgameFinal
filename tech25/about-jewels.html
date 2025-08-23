@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crown Jewels Quiz</title>
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="content-container">
+    <div class="text-content">
+      <h1>British Crown Jewels Quiz</h1>
+
+      <div id="startChoice">
+        <p>Would you like to start by Gem Type or Monarch?</p>
+        <button onclick="chooseStart('gemType')" class="button-52">Gem Type</button>
+        <button onclick="chooseStart('monarch')" class="button-52">Monarch</button>
+      </div>
+
+      <div id="categoryChoice" style="display:none;">
+        <h2>Select a Category</h2>
+        <div id="categoryButtons"></div>
+      </div>
+
+      <div id="timePeriodChoice" style="display:none;">
+        <h2>Select Time Period</h2>
+        <div id="timeButtons"></div>
+      </div>
+
+      <div id="countryChoice" style="display:none;">
+        <h2>Select the Country the Jewel Was Taken From</h2>
+        <div id="countryButtons"></div>
+      </div>
+
+      <div id="result" style="display:none;">
+        <h2>Result</h2>
+        <div id="resultText"></div>
+        <button id="restartBtn" class="button-52">Learn About More Jewels</button>
+      </div>
+    </div>
+
+    <div id="crown" class="crown-image">
+      <img
+        src="https://hrp.imgix.net/https%3A%2F%2Fhistoricroyalpalaces.picturepark.com%2FGo%2FEUXc71gn%2FV%2F48258%2F1?auto=format&s=e2b834c5bb71d2cf0717a9322f64a00a"
+        alt="Crown Image"
+        class="crown-image"
+      />
+    </div>
+  </div>
+
+  <script type="module" src="about-jewels.js"></script>
+</body>
+</html>

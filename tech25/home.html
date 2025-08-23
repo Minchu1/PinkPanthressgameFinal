@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Pink Panthress Adventures</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    body {
+      font-family: 'Nerko One', cursive;
+      background-color: #0b0b0b;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #ccc;
+    }
+
+    button {
+      display: block;
+      width: 260px;
+      margin: 15px auto;
+      padding: 14px 0;
+      font-size: 1.2rem;
+      background-color: #e60073;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff3399;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome, <span id="username">Agent</span></h1>
+  <h2>You’ve officially been accepted into the Pink Panthers crime syndicate!</h2>
+  <p>Your mission awaits. Choose your next move:</p>
+
+  <!-- Navigation buttons -->
+  <button onclick="window.location.href='game.html'">Play Game</button>
+  <button onclick="window.location.href='about-jewels.html'">Learn About Stolen Jewels</button>
+  <button onclick="window.location.href='about-panthers.html'">Learn About Pink Panthers</button>
+  <button onclick="window.location.href='leaderboard.html'">Leaderboard</button>
+  <button onclick="window.location.href='profile.html'">My Profile</button>
+
+  <!-- Firebase + Auth -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // Firebase config for this project
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjJH-gJjPcZeS1Ph-JL15_aN3cq5Ecr5Q",
+      authDomain: "pinkpanther-27795.firebaseapp.com",
+      projectId: "pinkpanther-27795",
+      storageBucket: "pinkpanther-27795.appspot.com",
+      messagingSenderId: "950188314786",
+      appId: "1:950188314786:web:1be4f4c1e9ed874567c7fb"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const usernameDisplay = document.getElementById('username');
+
+    // Check if user is signed in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const codeName = user.displayName || "Unknown Agent";
+        usernameDisplay.textContent = `Agent ${codeName}`;
+      } else {
+        // Redirect back to signin if not authenticated
+        window.location.href = "signin.html";
+      }
+    });
+  </script>
+</body>
+</html>

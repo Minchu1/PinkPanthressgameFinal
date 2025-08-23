@@ -1,0 +1,130 @@
+{
+  "crownJewels": {
+    "gemType": {
+      "Diamond": {
+        "17th Century": {
+          "France": {
+            "Mirror of Portugal": { "takenBy": "King Charles I of England", "material": "Diamond" }
+          }
+        },
+        "19th Century": {
+          "India": {
+            "Koh-i-Noor": { "takenBy": "British East India Company", "material": "Diamond" }
+          },
+          "South Africa": {
+            "Cullinan I (Great Star of Africa)": { "takenBy": "British Government", "material": "Diamond" },
+            "Cullinan II": { "takenBy": "British Government", "material": "Diamond" }
+          }
+        }
+      },
+      "Ruby": {
+        "14th Century": {
+          "Spain": {
+            "Black Prince's Ruby": { "takenBy": "Edward of Woodstock", "material": "Ruby (spinel)" }
+          }
+        },
+        "16th Century": {
+          "Burma": {
+            "Timur Ruby": { "takenBy": "British colonial forces", "material": "Ruby (spinel)" }
+          }
+        }
+      },
+      "Sapphire": {
+        "19th Century": {
+          "Sri Lanka": {
+            "Stuart Sapphire": { "takenBy": "British Crown", "material": "Sapphire" }
+          }
+        }
+      },
+      "Emerald": {
+        "17th Century": {
+          "Colombia": {
+            "Cambridge Emeralds": { "takenBy": "Duchess of Cambridge (via Spanish conquest)", "material": "Emerald" }
+          }
+        }
+      }
+    },
+    "monarch": {
+      "Queen Victoria": {
+        "19th Century": {
+          "India": {
+            "Koh-i-Noor": { "takenBy": "Lord Dalhousie", "material": "Diamond" }
+          },
+          "South Africa": {
+            "Cullinan I (Great Star of Africa)": { "takenBy": "British Government", "material": "Diamond" },
+            "Cullinan II": { "takenBy": "British Government", "material": "Diamond" }
+          }
+        }
+      },
+      "King Charles II": {
+        "17th Century": {
+          "Portugal": {
+            "Mirror of Portugal": { "takenBy": "Restored to English Crown Jewels", "material": "Diamond" }
+          }
+        }
+      },
+      "Edward of Woodstock": {
+        "14th Century": {
+          "Spain": {
+            "Black Prince's Ruby": { "takenBy": "Edward of Woodstock", "material": "Ruby (spinel)" }
+          }
+        }
+      }
+    }
+  },
+  "pinkPanthers": {
+    "history": {
+      "origin": "The Pink Panthers are an international network of jewel thieves believed to consist of members mainly from Serbia, Montenegro, and other Balkan states.",
+      "activeYears": "Early 2000s – present",
+      "notableHeists": [
+        {
+          "name": "Graff Diamonds Heist",
+          "year": 2003,
+          "location": "London, UK",
+          "value": "$30 million",
+          "details": "Two men dressed as business executives stole 47 pieces of jewelry in less than three minutes."
+        },
+        {
+          "name": "Harry Winston Robbery",
+          "year": 2008,
+          "location": "Paris, France",
+          "value": "$102 million",
+          "details": "Robbers dressed as women entered the store and took nearly all the stock."
+        }
+      ]
+    },
+    "methods": {
+      "disguises": "The gang is known for elaborate disguises, including dressing as women, tourists, and business professionals.",
+      "planning": "Operations are meticulously planned, often involving scouting the location weeks in advance.",
+      "execution": "Heists are carried out quickly — often within minutes — to minimize risk."
+    },
+    "popCulture": {
+      "documentaries": [
+        {
+          "title": "Smash & Grab: The Story of the Pink Panthers",
+          "year": 2013,
+          "type": "Documentary Film",
+          "description": "A mix of interviews and dramatizations exploring the history and operations of the Pink Panthers."
+        }
+      ],
+      "tvShows": [
+        {
+          "title": "Pink Panther Animated Series",
+          "year": 1969,
+          "description": "Although fictional and comedic, the animated Pink Panther character and TV show drew loose inspiration from the gang's reputation for elegance, stealth, and cleverness."
+        }
+      ],
+      "books": [
+        {
+          "title": "The Pink Panthers: The Greatest Thieves in the World",
+          "author": "David Farrier",
+          "description": "An investigative look at the rise and ongoing influence of the Pink Panthers."
+        }
+      ]
+    },
+    "trivia": [
+      "The group was nicknamed 'Pink Panthers' by Interpol after a 2003 heist in which a stolen diamond was found hidden in a jar of face cream — a trick seen in the 1963 'Pink Panther' film.",
+      "They are suspected of stealing over $500 million worth of jewels worldwide."
+    ]
+  }
+}

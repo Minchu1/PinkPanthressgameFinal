@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leaderboard - Pink Panthress Adventures</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    table {
+      margin: auto;
+      border-collapse: collapse;
+      width: 70%;
+      text-align: center;
+    }
+    thead tr { background-color:#e60073; color:#fff; }
+    th, td { padding: 12px; }
+    td { vertical-align: middle; } /* keep content centered vertically */
+
+    .agent-cell{
+      display: flex;             /* <- not inline-flex */
+      align-items: center;       /* vertical center icon + name */
+      justify-content: center;   /* center the group in the column */
+      gap: 10px;
+      width: 100%;
+    }
+    .avatar{
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #e60073;
+      display: block;            /* remove baseline gap under images */
+      flex-shrink: 0;
+    }
+    .agent-name{
+      line-height: 1;            /* avoid tall line-box from the font */
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body class="game-body">
+
+  <h1>🏆 Fastest Heist Agents 🏆</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Agent</th>
+        <th>Time (s)</th>
+      </tr>
+    </thead>
+    <tbody id="leaderboard-body"></tbody>
+  </table>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, get, query, orderByChild, limitToFirst } 
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjJH-gJjPcZeS1Ph-JL15_aN3cq5Ecr5Q",
+      authDomain: "pinkpanther-27795.firebaseapp.com",
+      databaseURL: "https://pinkpanther-27795-default-rtdb.firebaseio.com",
+      projectId: "pinkpanther-27795",
+      storageBucket: "pinkpanther-27795.appspot.com",
+      messagingSenderId: "950188314786",
+      appId: "1:950188314786:web:1be4f4c1e9ed874567c7fb"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const leaderboardQuery = query(
+      ref(db, "completionTimes"),
+      orderByChild("time"),
+      limitToFirst(10)
+    );
+
+    const tableBody = document.getElementById("leaderboard-body");
+
+    async function fetchProfilePic(uid) {
+      try {
+        const snap = await get(ref(db, `publicProfiles/${uid}/profilePic`));
+        if (snap.exists()) return snap.val();
+      } catch {}
+      return "https://images.seeklogo.com/logo-png/10/1/pink-panther-logo-png_seeklogo-109024.png";
+    }
+
+    get(leaderboardQuery).then(async snapshot => {
+      if (!snapshot.exists()) {
+        tableBody.innerHTML = `<tr><td colspan="3">No scores yet</td></tr>`;
+        return;
+      }
+
+      const results = [];
+      snapshot.forEach(childSnap => {
+        const entry = childSnap.val();
+        const uid = childSnap.key;
+        if (entry.time !== undefined) {
+          results.push({ ...entry, uid });
+        } else {
+          Object.values(entry).forEach(inner => results.push({ ...inner, uid: inner.uid || uid }));
+        }
+      });
+
+      results.sort((a, b) => (a.time || Infinity) - (b.time || Infinity));
+
+      for (let i = 0; i < results.length; i++) {
+        const player = results[i];
+        const row = document.createElement("tr");
+        const picUrl = await fetchProfilePic(player.uid);
+
+        row.innerHTML = `
+          <td>${i + 1}</td>
+          <td>
+            <div class="agent-cell">
+              <img class="avatar" src="${picUrl}" alt="avatar">
+              <span class="agent-name">${player.username || "Anonymous"}</span>
+            </div>
+          </td>
+          <td>${typeof player.time === "number" ? player.time.toFixed(2) : "N/A"}</td>
+        `;
+        tableBody.appendChild(row);
+      }
+    }).catch(err => {
+      console.error("Error loading leaderboard:", err);
+      tableBody.innerHTML = `<tr><td colspan="3">⚠️ Error loading data</td></tr>`;
+    });
+  </script>
+
+</body>
+</html>
