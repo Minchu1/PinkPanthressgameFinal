@@ -15,7 +15,7 @@ function answerYes() {
     stage = 2;
 
   } else if (stage === 2) {
-    q.textContent = "You discover guard rotations, cameras, and an unguarded tunnel entrance.";
+    q.textContent = "You discover guard rotations every 20 minutes, where the cameras are, and an unguarded tunnel entrance.";
     stage = 3;
 
     choices.innerHTML = `
@@ -35,7 +35,7 @@ function answerNo() {
     q.textContent = "You stroll into the Tower of London and spot the jewels behind glass.";
     choices.innerHTML = `
       <button class="game-btn" onclick="fail('You smash the glass — alarms blare and guards arrest you!')">Smash the glass</button>
-      <button class="game-btn" onclick="fail('You beg the guard... who throws you out in shame.')">Beg the guard</button>
+      <button class="game-btn" onclick="fail('You beg the guard... he throws you out in shame.')">Beg the guard</button>
     `;
   } else if (stage === 2) {
     q.textContent = "Skipping intel was a mistake — you’re spotted!";
@@ -127,7 +127,7 @@ function hideUnderDesk() {
 
   q.textContent = "The guard enters, tidies up some files, and leaves without noticing you.";
   choices.innerHTML = `
-    <button class="game-btn" onclick="fail('A guard waits outside — you’re caught leaving.')">Sneak out</button>
+    <button class="game-btn" onclick="fail('You pass a guard in your hurry, he spots you.— you’re caught leaving.')">Sneak out</button>
   `;
 }
 
@@ -157,7 +157,7 @@ function shiftChange() {
 
   q.textContent = "Shift change begins. How do you enter the vault?";
   choices.innerHTML = `
-    <button class="game-btn" onclick="vaultCamera()">Swipe the badge you found</button>
+    <button class="game-btn" onclick="vaultCamera()">Swipe the badge you found in your uniform pocket</button>
     <button class="game-btn" onclick="fail('Biometric scan fails — alarms ring!')">Try the biometric scanner</button>
   `;
 }
@@ -196,7 +196,7 @@ function saveCompletionTime() {
 
 function viralWin() {
   saveCompletionTime();
-  document.getElementById("question").textContent = "You win — the world sees your heist live, you’re viral!";
+  document.getElementById("question").textContent = "You win — the world sees your heist all over social media, you’re viral!";
   document.getElementById("choices").innerHTML = `
     <button class="game-btn" onclick="restart()">Play again</button>
     <a href="about-jewels.html" class="game-btn">Learn about stolen jewels</a>
@@ -233,3 +233,4 @@ function restart() {
     <button class="game-btn" onclick="answerNo()">No</button>
   `;
 }
+
